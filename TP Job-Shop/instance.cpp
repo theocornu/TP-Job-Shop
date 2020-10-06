@@ -24,7 +24,33 @@ void lecture(std::string nomFichier, t_instance & instance)
 
 void evaluer(t_instance & instance, t_vecteur & vecteur)
 {
+	int n = instance.n, m = instance.m;
+	int np[NMAX + 1] = { 0 };
+	int mp[NMAX + 1][2] = { 0 };
+	// St déjà initialisé à 0
+	for (int i = 1; i <= n; i++) {
+		mp[i][0] = mp[i][1] = -1;
+	}
+	for (int i = 1; i <= n; i++) {
+		int j = vecteur.v[i];
+		np[j]++;
+		int mc = instance.machine[j][np[j]];
+		//...
+		if (np[j] > 1) {
+			int deb = vecteur.st[i][np[j] - 1];
+			int fin = deb + instance.p[j][np[j] - 1];
+			if (fin > vecteur.st[j][np[j]]) {
+				vecteur.st[j][np[j]] = fin;
+			}
+		}
+		if (mp[mc][0] != -1 && mp[mc][1] != -1) {
+			int pc = mp[mc][0];
+			int nc = mp[mc][1];
+			if (vecteur.st[pc][mc] + instance.p[pc][nc] > vecteur.st[j][np[j]]) {
 
+			}
+		}
+	}
 }
 
 void genererVecteur(t_instance & instance, t_vecteur & vecteur)
