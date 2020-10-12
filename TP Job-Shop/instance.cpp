@@ -47,9 +47,12 @@ void evaluer(t_instance & instance, t_vecteur & vecteur)
 			int pc = mp[mc][0];
 			int nc = mp[mc][1];
 			if (vecteur.st[pc][mc] + instance.p[pc][nc] > vecteur.st[j][np[j]]) {
-
+				vecteur.st[j][np[j]] = vecteur.st[pc][nc] + instance.p[pc][nc];
 			}
+			//...
 		}
+		mp[mc][0] = j;
+		mp[mc][1] = np[j];
 	}
 }
 
