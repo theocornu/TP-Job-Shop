@@ -33,12 +33,12 @@ void evaluer(t_instance & instance, t_vecteur & vecteur)
 {
 	int n = instance.n, m = instance.m;
 	int np[NMAX + 1] = { 0 }; // compteur de machine courante par pièce
-	int mp[MMAX + 1][2] = { 0 }; // {num pièce, cpt machine}
+	t_couple mp[MMAX + 1] = { 0 };
 	// St déjà initialisé à 0
 	for (int i = 1; i <= n; i++) {
-		mp[i][0] = mp[i][1] = -1;
+		mp[i].piece = mp[i].machine = -1;
 	}
-	for (int i = 1; i <= n; i++) {
+	for (int i = 1, taille = n*m; i <= taille; i++) {
 		int j = vecteur.v[i]; // valeur courante dans le vecteur de Bierwirth
 		np[j]++;
  		int mc = instance.machine[j][np[j]]; // machine courante
@@ -48,6 +48,8 @@ void evaluer(t_instance & instance, t_vecteur & vecteur)
 		// 2) Ajout de l'arc de la position actuelle
 		// à la prochaine position qui utilise la même machine
 
+		// MAJ cout et pere
+
 		if (np[j] > 1) {
 			int deb = vecteur.st[i][np[j] - 1];
 			int fin = deb + instance.p[j][np[j] - 1];
@@ -55,21 +57,21 @@ void evaluer(t_instance & instance, t_vecteur & vecteur)
 				vecteur.st[j][np[j]] = fin;
 			}
 		}
-		if (mp[mc][0] != -1 && mp[mc][1] != -1) {
-			int pc = mp[mc][0];
-			int nc = mp[mc][1];
+		if (mp[mc].piece != -1 && mp[mc].machine != -1) {
+			int pc = mp[mc].piece;
+			int nc = mp[mc].machine;
 			if (vecteur.st[pc][nc] + instance.p[pc][nc] > vecteur.st[j][np[j]]) {
 				vecteur.st[j][np[j]] = vecteur.st[pc][nc] + instance.p[pc][nc];
 			}
-			
 		}
-		mp[mc][0] = j;
-		mp[mc][1] = np[j];
+		mp[mc] = { j, np[j] };
+		// stocker mp dans pere
+
 	}
 
 	/* TESTS */
-	for (int i = 1; i <= n; i++) {
-		std::cout << i << " " << np[i] << std::endl;
+	for (int i = 1; i <= m; i++) {
+		std::cout << i << " " << mp[i].piece << " " << mp[i].machine << std::endl;
 	}
 }
 
