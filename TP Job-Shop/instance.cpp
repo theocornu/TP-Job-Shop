@@ -35,8 +35,8 @@ void evaluer(t_instance & instance, t_vecteur & vecteur)
 	int np[NMAX + 1] = { 0 }; // compteur de machine courante par pièce
 	t_couple mp[MMAX + 1] = { 0 };
 	// St déjà initialisé à 0
-	for (int i = 1; i <= n; i++) {
-		mp[i].piece = mp[i].machine = -1;
+	for (int i = 1; i <= m; i++) {
+		mp[i] = { -1,-1 };
 	}
 	for (int i = 1, taille = n*m; i <= taille; i++) {
 		int j = vecteur.v[i]; // valeur courante dans le vecteur de Bierwirth
@@ -71,7 +71,7 @@ void evaluer(t_instance & instance, t_vecteur & vecteur)
 
 	/* TESTS */
 	for (int i = 1; i <= m; i++) {
-		std::cout << i << " " << mp[i].piece << " " << mp[i].machine << std::endl;
+		std::cout << i-1 << " " << mp[i].piece << " " << mp[i].machine << std::endl;
 	}
 }
 
