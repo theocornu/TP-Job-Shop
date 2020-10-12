@@ -11,6 +11,6 @@ int main()
 
 	lecture("LA01.txt", instance);
 	genererVecteur(instance, vecteur);
-	
+	evaluer(instance, vecteur);
 }
 

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 
 void lecture(std::string nomFichier, t_instance & instance)
 {
@@ -14,28 +15,39 @@ void lecture(std::string nomFichier, t_instance & instance)
 		instance.m = m;
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= m; j++) {
-				fichier >> instance.machine[i][j] >> instance.p[i][j];
+				int num_machine, duree;
+				fichier >> num_machine >> duree;
+				instance.machine[i][j] = num_machine + 1;
+				instance.p[i][j] = duree;
 			}
 		}
 
 		fichier.close();
+	}
+	else {
+		std::cerr << "Erreur : nom de fichier invalide" << std::endl;
 	}
 }
 
 void evaluer(t_instance & instance, t_vecteur & vecteur)
 {
 	int n = instance.n, m = instance.m;
-	int np[NMAX + 1] = { 0 };
-	int mp[NMAX + 1][2] = { 0 };
+	int np[NMAX + 1] = { 0 }; // compteur de machine courante par pièce
+	int mp[MMAX + 1][2] = { 0 }; // {num pièce, cpt machine}
 	// St déjà initialisé à 0
 	for (int i = 1; i <= n; i++) {
 		mp[i][0] = mp[i][1] = -1;
 	}
 	for (int i = 1; i <= n; i++) {
-		int j = vecteur.v[i];
+		int j = vecteur.v[i]; // valeur courante dans le vecteur de Bierwirth
 		np[j]++;
-		int mc = instance.machine[j][np[j]];
-		//...
+ 		int mc = instance.machine[j][np[j]]; // machine courante
+
+		// 1) Ajout de l'arc de la position actuelle
+		// vers la prochaine position qui fait référence à j
+		// 2) Ajout de l'arc de la position actuelle
+		// à la prochaine position qui utilise la même machine
+
 		if (np[j] > 1) {
 			int deb = vecteur.st[i][np[j] - 1];
 			int fin = deb + instance.p[j][np[j] - 1];
@@ -46,13 +58,18 @@ void evaluer(t_instance & instance, t_vecteur & vecteur)
 		if (mp[mc][0] != -1 && mp[mc][1] != -1) {
 			int pc = mp[mc][0];
 			int nc = mp[mc][1];
-			if (vecteur.st[pc][mc] + instance.p[pc][nc] > vecteur.st[j][np[j]]) {
+			if (vecteur.st[pc][nc] + instance.p[pc][nc] > vecteur.st[j][np[j]]) {
 				vecteur.st[j][np[j]] = vecteur.st[pc][nc] + instance.p[pc][nc];
 			}
-			//...
+			
 		}
 		mp[mc][0] = j;
 		mp[mc][1] = np[j];
+	}
+
+	/* TESTS */
+	for (int i = 1; i <= n; i++) {
+		std::cout << i << " " << np[i] << std::endl;
 	}
 }
 
@@ -69,7 +86,8 @@ void genererVecteur(t_instance & instance, t_vecteur & vecteur)
 		numPiece[i] = i;
 	}
 	
-	std::srand(std::time(NULL));
+	//std::srand(std::time(NULL));
+	std::srand(2);
 	int taille = n * m;
 	for (int i = 1; i <= taille; i++) {
 		int j = rand() % nbc + 1;
