@@ -13,5 +13,17 @@ int main()
 	lecture("LA01.txt", instance);
 	genererVecteur(instance, vecteur);
 	evaluer(instance, vecteur);
+
+	// affichage plus long chemin
+	int pc = vecteur.PUIT.piece, pm = vecteur.PUIT.machine;
+	std::cout << "puit / makespan = " << vecteur.makespan << std::endl;
+	while (vecteur.pere[pc][pm].piece != 0) {
+		t_operation& op = vecteur.pere[pc][pm];
+		std::cout << "piece " << op.piece
+			<< " : machine " << op.machine
+			<< " : debut = " << vecteur.st[pc][pm] << std::endl;
+		pc = op.piece;
+		pm = op.machine;
+	}
 }
 
