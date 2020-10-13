@@ -15,16 +15,16 @@ typedef struct t_instance {
 	// par la j-ième machine
 }t_instance;
 
-typedef struct t_couple {
+typedef struct t_operation {
 	int piece;
 	int machine;
-};
+}t_operation;
 
 typedef struct t_vecteur {
 	int v[(NMAX + 1) * (MMAX + 1)]; // vecteur
 	int st[NMAX + 1][MMAX + 1]; // starting times
 	int cout; // makespan
-	t_couple pere[NMAX + 1][MMAX + 1]; // liste des pères de chaque sommet
+	t_operation pere[NMAX + 1][MMAX + 1]; // liste des pères de chaque sommet
 }t_vecteur;
 
 void lecture(std::string nomFichier, t_instance& instance);
