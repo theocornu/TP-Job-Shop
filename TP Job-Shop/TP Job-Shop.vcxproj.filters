@@ -29,6 +29,9 @@
     <Text Include="jobshop1.txt">
       <Filter>Fichiers de ressources</Filter>
     </Text>
+    <Text Include="job_test.txt">
+      <Filter>Fichiers de ressources</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="instance.h">

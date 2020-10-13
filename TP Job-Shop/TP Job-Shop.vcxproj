@@ -155,6 +155,7 @@
     <ClCompile Include="TP Job-Shop.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="job_test.txt" />
     <Text Include="LA01.txt" />
     <Text Include="jobshop1.txt" />
   </ItemGroup>

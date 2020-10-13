@@ -23,7 +23,8 @@ typedef struct t_operation {
 typedef struct t_vecteur {
 	int v[(NMAX + 1) * (MMAX + 1)]; // vecteur
 	int st[NMAX + 1][MMAX + 1]; // starting times
-	int cout; // makespan
+	int makespan;
+	const t_operation PUIT = { 0, MMAX };
 	t_operation pere[NMAX + 1][MMAX + 1]; // liste des pères de chaque sommet
 }t_vecteur;
 

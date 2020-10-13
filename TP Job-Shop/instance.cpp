@@ -38,6 +38,8 @@ void evaluer(t_instance & instance, t_vecteur & vecteur)
 {
 	int n = instance.n, m = instance.m;
 	int np[NMAX + 1] = { 0 }; // compteur de machine courante par pièce
+	int& makespan = vecteur.makespan;
+	const t_operation& puit = vecteur.PUIT;
 	t_operation mp[MMAX + 1] = { 0 };
 	// St déjà initialisé à 0
 	for (int i = 1; i <= m; i++) {
@@ -46,26 +48,31 @@ void evaluer(t_instance & instance, t_vecteur & vecteur)
 	for (int i = 1, taille = n*m; i <= taille; i++) {
 		int j = vecteur.v[i]; // valeur courante dans le vecteur de Bierwirth
 		np[j]++;
- 		int mc = instance.machine[j][np[j]]; // machine courante
+  		int mc = instance.machine[j][np[j]]; // machine courante
+		// comparaison job
 		if (np[j] > 1) {
-			int deb = vecteur.st[i][np[j] - 1];
+			int deb = vecteur.st[j][np[j] - 1];
 			int fin = deb + instance.p[j][np[j] - 1];
 			if (fin > vecteur.st[j][np[j]]) {
 				vecteur.st[j][np[j]] = fin;
+				vecteur.pere[j][np[j]] = { j, np[j] - 1 };
 			}
 		}
+		// comparaison machine 
 		if (mp[mc].piece != -1 && mp[mc].machine != -1) {
 			int pc = mp[mc].piece;
 			int nc = mp[mc].machine;
 			if (vecteur.st[pc][nc] + instance.p[pc][nc] > vecteur.st[j][np[j]]) {
 				vecteur.st[j][np[j]] = vecteur.st[pc][nc] + instance.p[pc][nc];
+				vecteur.pere[j][np[j]] = mp[mc];
 			}
-			vecteur.pere[j][np[j]] = mp[mc];
 		}
 		mp[mc] = { j, np[j] };
+		if (vecteur.st[j][np[j]] + instance.p[j][np[j]] >= makespan) {
+			vecteur.pere[puit.piece][puit.machine] = { j, np[j] };
+			makespan = vecteur.st[j][np[j]] + instance.p[j][np[j]];
+		}
 	}
-
-	/* TESTS */
 	
 }
 
