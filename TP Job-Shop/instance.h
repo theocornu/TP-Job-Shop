@@ -31,4 +31,4 @@ typedef struct t_vecteur {
 void lecture(std::string nomFichier, t_instance& instance);
 void evaluer(t_instance& instance, t_vecteur& vecteur);
 void genererVecteur(t_instance& instance, t_vecteur& vecteur);
-void rechercheLocale(t_instance& instance, t_vecteur vecteur, int nbmaxIter);
+void rechercheLocale(t_instance& instance, t_vecteur & vecteur, int nbmaxIter);

@@ -2,7 +2,26 @@
 //
 
 #include <iostream>
+#include <sstream>
 #include "instance.h"
+
+void afficherPlusLongChemin(t_vecteur& vecteur) {
+	int pc = vecteur.PUIT.piece, pm = vecteur.PUIT.machine;
+	t_operation& op = vecteur.pere[pc][pm];
+	std::string chemin[NMAX*MMAX];
+	int iChemin = 0;
+	while (vecteur.pere[pc][pm].piece != 0) {
+		pc = op.piece;
+		pm = op.machine;
+		std::ostringstream ss;
+		ss << "( " << op.piece << " , " << op.machine << " ) : " << vecteur.st[pc][pm] << std::endl;
+		chemin[iChemin++] = ss.str();
+		op = vecteur.pere[pc][pm];
+	}
+	for (; iChemin >= 0; iChemin--) {
+		std::cout << chemin[iChemin];
+	}
+}
 
 int main()
 {
@@ -15,15 +34,6 @@ int main()
 	evaluer(instance, vecteur);
 
 	// affichage plus long chemin
-	int pc = vecteur.PUIT.piece, pm = vecteur.PUIT.machine;
-	std::cout << "puit / makespan = " << vecteur.makespan << std::endl;
-	while (vecteur.pere[pc][pm].piece != 0) {
-		t_operation& op = vecteur.pere[pc][pm];
-		std::cout << "piece " << op.piece
-			<< " : machine " << op.machine
-			<< " : debut = " << vecteur.st[pc][pm] << std::endl;
-		pc = op.piece;
-		pm = op.machine;
-	}
+	afficherPlusLongChemin(vecteur);
 }
 

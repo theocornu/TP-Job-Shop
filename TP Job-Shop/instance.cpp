@@ -104,6 +104,14 @@ void genererVecteur(t_instance & instance, t_vecteur & vecteur)
 	}
 }
 
-void rechercheLocale(t_instance & instance, t_vecteur vecteur, int nbmaxIter)
+void rechercheLocale(t_instance & instance, t_vecteur & vecteur, int nbmaxIter)
 {
+	// Evaluation déjà faite
+	t_operation puit = vecteur.PUIT; //(i, j) = (*, *)
+	int &i = puit.piece, &j = puit.machine;
+	t_operation pere = vecteur.pere[puit.piece][puit.machine]; //(ipere, jpere)
+	int &ipere = pere.piece, &jpere = pere.machine;
+	if (ipere != i) {
+		t_vecteur nouveauVecteur = vecteur;
+	}
 }
