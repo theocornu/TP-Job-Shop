@@ -86,7 +86,7 @@ void genererVecteur(t_instance & instance, t_vecteur & vecteur)
 		numPiece[i] = i;
 	}
 	
-	//std::srand(std::time(NULL));
+	//srand(time(NULL));
 	std::srand(2);
 	int taille = n * m;
 	for (int i = 1; i <= taille; i++) {
@@ -105,15 +105,22 @@ t_vecteur rechercheLocale(t_instance & instance, t_vecteur vecteur, int nbmaxIte
 {
 	evaluer(instance, vecteur);
 	int nbIter = 0;
-	while (nbIter < nbmaxIter) {
+	int i = t_vecteur::PUIT.piece, j = t_vecteur::PUIT.machine,
+		ipere = vecteur.pere[i][j].piece, jpere = vecteur.pere[i][j].machine;
+	while (ipere != 0 && nbIter < nbmaxIter) {
 		t_vecteur nouveauVecteur = vecteur;
 		evaluer(instance, nouveauVecteur);
 		if (nouveauVecteur.makespan < vecteur.makespan) {
 			vecteur = nouveauVecteur;
+			i = t_vecteur::PUIT.piece, j = t_vecteur::PUIT.machine;
+			ipere = vecteur.pere[i][j].piece, jpere = vecteur.pere[i][j].machine;
 			nbIter = 0;
 		}
 		else {
+			i = ipere, j = jpere;
+			ipere = vecteur.pere[ipere][jpere].piece, jpere = vecteur.pere[ipere][jpere].machine;
 			nbIter++;
 		}
 	}
+	return vecteur;
 }

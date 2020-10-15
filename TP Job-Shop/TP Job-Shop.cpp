@@ -31,9 +31,11 @@ int main()
 
 	lecture("LA01.txt", instance);
 	genererVecteur(instance, vecteur);
-	evaluer(instance, vecteur);
 
+	evaluer(instance, vecteur);
 	afficherPlusLongChemin(vecteur);
-	rechercheLocale(instance, vecteur, 100);
+	std::cout << std::endl;
+	t_vecteur min = rechercheLocale(instance, vecteur, 100);
+	afficherPlusLongChemin(min);
 }
 
