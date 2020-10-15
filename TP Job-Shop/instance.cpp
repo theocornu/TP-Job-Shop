@@ -110,6 +110,7 @@ t_vecteur rechercheLocale(t_instance & instance, t_vecteur vecteur, int nbmaxIte
 	while (ipere != 0 && nbIter < nbmaxIter) {
 		t_vecteur nouveauVecteur = vecteur;
 		evaluer(instance, nouveauVecteur);
+		// si meilleure solution trouvée
 		if (nouveauVecteur.makespan < vecteur.makespan) {
 			vecteur = nouveauVecteur;
 			i = t_vecteur::PUIT.piece, j = t_vecteur::PUIT.machine;
