@@ -4,6 +4,8 @@
 #include <ctime>
 #include <iostream>
 
+const t_operation t_vecteur::PUIT = { 0, MMAX };
+
 void lecture(std::string nomFichier, t_instance & instance)
 {
 	std::ifstream fichier(nomFichier);
@@ -29,11 +31,6 @@ void lecture(std::string nomFichier, t_instance & instance)
 	}
 }
 
-// 1) Ajout de l'arc de la position actuelle
-// vers la prochaine position qui fait référence à j
-// 2) Ajout de l'arc de la position actuelle
-// à la prochaine position qui utilise la même machine
-// MAJ cout et pere
 void evaluer(t_instance & instance, t_vecteur & vecteur)
 {
 	int n = instance.n, m = instance.m;
@@ -104,14 +101,19 @@ void genererVecteur(t_instance & instance, t_vecteur & vecteur)
 	}
 }
 
-void rechercheLocale(t_instance & instance, t_vecteur & vecteur, int nbmaxIter)
+t_vecteur rechercheLocale(t_instance & instance, t_vecteur vecteur, int nbmaxIter)
 {
-	// Evaluation déjà faite
-	t_operation puit = vecteur.PUIT; //(i, j) = (*, *)
-	int &i = puit.piece, &j = puit.machine;
-	t_operation pere = vecteur.pere[puit.piece][puit.machine]; //(ipere, jpere)
-	int &ipere = pere.piece, &jpere = pere.machine;
-	if (ipere != i) {
+	evaluer(instance, vecteur);
+	int nbIter = 0;
+	while (nbIter < nbmaxIter) {
 		t_vecteur nouveauVecteur = vecteur;
+		evaluer(instance, nouveauVecteur);
+		if (nouveauVecteur.makespan < vecteur.makespan) {
+			vecteur = nouveauVecteur;
+			nbIter = 0;
+		}
+		else {
+			nbIter++;
+		}
 	}
 }

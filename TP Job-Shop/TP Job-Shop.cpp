@@ -33,7 +33,7 @@ int main()
 	genererVecteur(instance, vecteur);
 	evaluer(instance, vecteur);
 
-	// affichage plus long chemin
 	afficherPlusLongChemin(vecteur);
+	rechercheLocale(instance, vecteur, 100);
 }
 

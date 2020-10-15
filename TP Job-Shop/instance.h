@@ -24,11 +24,11 @@ typedef struct t_vecteur {
 	int v[(NMAX + 1) * (MMAX + 1)]; // vecteur
 	int st[NMAX + 1][MMAX + 1]; // starting times
 	int makespan;
-	const t_operation PUIT = { 0, MMAX };
+	static const t_operation PUIT;
 	t_operation pere[NMAX + 1][MMAX + 1]; // liste des pères de chaque sommet
 }t_vecteur;
 
 void lecture(std::string nomFichier, t_instance& instance);
 void evaluer(t_instance& instance, t_vecteur& vecteur);
 void genererVecteur(t_instance& instance, t_vecteur& vecteur);
-void rechercheLocale(t_instance& instance, t_vecteur & vecteur, int nbmaxIter);
+t_vecteur rechercheLocale(t_instance& instance, t_vecteur vecteur, int nbmaxIter);
