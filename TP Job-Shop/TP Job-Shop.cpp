@@ -29,13 +29,20 @@ int main()
 	t_vecteur vecteur = { 0 };
 	t_vecteur vecteur_test = { 0, 1, 1, 2, 1, 3, 2, 2, 3, 3 };
 
-	lecture("LA01.txt", instance);
+	/*lecture("LA01.txt", instance);
 	genererVecteur(instance, vecteur);
 
 	evaluer(instance, vecteur);
 	afficherPlusLongChemin(vecteur);
 	std::cout << std::endl;
 	t_vecteur min = rechercheLocale(instance, vecteur, 100);
+	afficherPlusLongChemin(min);*/
+
+	lecture("job_test.txt", instance);
+	evaluer(instance, vecteur_test);
+	afficherPlusLongChemin(vecteur_test);
+	std::cout << std::endl;
+	t_vecteur min = rechercheLocale(instance, vecteur_test, 100);
 	afficherPlusLongChemin(min);
 }
 

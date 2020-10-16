@@ -105,10 +105,15 @@ t_vecteur rechercheLocale(t_instance & instance, t_vecteur vecteur, int nbmaxIte
 {
 	evaluer(instance, vecteur);
 	int nbIter = 0;
+	// i : piece , j : numéro machine
 	int i = t_vecteur::PUIT.piece, j = t_vecteur::PUIT.machine,
 		ipere = vecteur.pere[i][j].piece, jpere = vecteur.pere[i][j].machine;
+	t_vecteur nouveauVecteur;
 	while (ipere != 0 && nbIter < nbmaxIter) {
-		t_vecteur nouveauVecteur = vecteur;
+		nouveauVecteur = vecteur;
+		if (i != t_vecteur::PUIT.piece)
+			permutation(nouveauVecteur, { i, j }, { ipere, jpere });
+		// permutation des deux jobs dans le vecteur de Bierwirth
 		evaluer(instance, nouveauVecteur);
 		// si meilleure solution trouvée
 		if (nouveauVecteur.makespan < vecteur.makespan) {
@@ -124,4 +129,33 @@ t_vecteur rechercheLocale(t_instance & instance, t_vecteur vecteur, int nbmaxIte
 		}
 	}
 	return vecteur;
+}
+
+void permutation(t_vecteur& vecteur, t_operation t1, t_operation t2) {
+	int i = t1.piece, j = t1.machine,
+		ipere = t2.piece, jpere = t2.machine;
+	int cpt_i = 0, cpt_ipere = 0;
+	int index_i = 0, index_ipere = 0;
+	for (int k = 1, taille = (NMAX + 1)*(MMAX + 1); k < taille; k++) {
+		if (cpt_i < j && vecteur.v[k] == i) {
+			cpt_i++;
+			index_i = k;
+		}
+		if (cpt_ipere < jpere && vecteur.v[k] == ipere) {
+			cpt_ipere++;
+			index_ipere = k;
+		}	
+	}
+	// recherche dans le vecteur
+	/*while (cpt_i != j && cpt_ipere != jpere) {
+		index_i++, index_ipere++;
+		if (vecteur.v[index_i] == i) 
+			cpt_i++;
+		if (vecteur.v[index_ipere] == ipere)
+			cpt_ipere++;
+	}*/
+	// permutation
+	int tmp = vecteur.v[index_i];
+	vecteur.v[index_i] = vecteur.v[index_ipere];
+	vecteur.v[index_ipere] = tmp;
 }
