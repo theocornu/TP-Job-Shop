@@ -33,3 +33,4 @@ void evaluer(t_instance& instance, t_vecteur& vecteur);
 void genererVecteur(t_instance& instance, t_vecteur& vecteur);
 t_vecteur rechercheLocale(t_instance& instance, t_vecteur vecteur, int nbmaxIter);
 void permutation(t_vecteur& vecteur, t_operation t1, t_operation t2);
+void GRASP(t_instance& instance, int nbmaxIter);

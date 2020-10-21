@@ -168,3 +168,30 @@ void permutation(t_vecteur& vecteur, t_operation op1, t_operation op2) {
 	vecteur.v[index_i] = vecteur.v[index_ipere];
 	vecteur.v[index_ipere] = tmp;
 }
+
+void GRASP(t_instance & instance, int nbmaxIter)
+{
+	/* Generer alea Pop 
+			alea v
+			app. rech. locale v->v'
+			si (H(f(v')) == 0)
+				insérer v' dans Pop
+	*/
+
+	/* pour i=1 à itermax faire
+			choisir P1 
+			choisir P2
+			F = croisement(P1,P2)
+			app. rech. locale F->F'
+			si (H(h(F')) == 0) alors H(h(F'))=1
+				P = choix alea entre P1 et P2
+				Pop[P] = F'
+				retrier Pop
+				si (on n'a pas modifié le meilleur de tous les élmts) alors
+					c++
+				sinon
+					c = 0
+	   si (c == valmax) alors
+			restart 1 à n-5
+	*/
+}
